@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chihuahua Archive</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+        }
+        header {
+            background-color: #333;
+            color: white;
+            padding: 1rem;
+            text-align: center;
+        }
+        main {
+            padding: 1rem;
+        }
+        .controls {
+            margin-bottom: 1rem;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            align-items: center;
+        }
+        .controls button, .controls select, .controls input[type="file"] {
+            padding: 10px 20px;
+            font-size: 16px;
+            border: none;
+            background-color: #333;
+            color: white;
+            cursor: pointer;
+            border-radius: 5px;
+            margin-bottom: 10px;
+        }
+        .controls button:hover, .controls select:hover, .controls input[type="file"]:hover {
+            background-color: #555;
+        }
+        .gallery {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+        .gallery-item {
+            display: none;
+            box-sizing: border-box;
+            background-color: white;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            overflow: hidden;
+            padding: 10px;
+        }
+        .gallery-item img {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
+        .gallery-item .date {
+            padding: 0.5rem;
+            background-color: #333;
+            color: white;
+            text-align: center;
+        }
+    </style>
+    <script>
+        function filterByDate(date) {
+            const items = document.querySelectorAll('.gallery-item');
+            items.forEach(item => {
+                if (item.dataset.date === date) {
+                    item.style.display = 'block';
+                } else {
+                    item.style.display = 'none';
+                }
+            });
+        }
+
+        function uploadPhoto() {
+            const selectedDate = document.getElementById('dateSelect').value;
+            const fileInput = document.getElementById('photoUpload');
+            const gallery = document.querySelector('.gallery');
+
+            if (fileInput.files.length > 0 && selectedDate) {
+                const file = fileInput.files[0];
+                const reader = new FileReader();
+
+                reader.onload = function (e) {
+                    const newGalleryItem = document.createElement('div');
+                    newGalleryItem.classList.add('gallery-item');
+                    newGalleryItem.dataset.date = selectedDate;
+                    newGalleryItem.innerHTML = `
+                        <img src="${e.target.result}" alt="Uploaded Photo">
+                        <div class="date">${selectedDate}</div>
+                    `;
+                    gallery.appendChild(newGalleryItem);
+                    alert('Photo uploaded successfully!');
+                };
+
+                reader.readAsDataURL(file);
+            } else {
+                alert('Please select a date and a photo to upload!');
+            }
+        }
+    </script>
+</head>
+<body>
+    <header>
+        <h1>Chihuahua Archive</h1>
+        <p>Organize and view your photos by category</p>
+    </header>
+    <main>
+        <div class="controls">
+            <select id="dateSelect">
+                <option value="">Select a category</option>
+                <option value="귀여운치와와">귀여운치와와</option>
+                <option value="웃긴치와와">웃긴치와와</option>
+                <option value="졸린치와와">졸린치와와</option>
+                <option value="멋진치와와">멋진치와와</option>
+                <option value="전기톱치와와">전기톱치와와</option>
+                <option value="기타등등">기타등등</option>
+            </select>
+            <input type="file" id="photoUpload" accept="image/*">
+            <button onclick="uploadPhoto()">Upload Photo</button>
+        </div>
+        <section class="gallery">
+            <div class="gallery-item" data-date="귀여운치와와">
+                <div class="date">귀여운치와와</div>
+            </div>
+            <div class="gallery-item" data-date="웃긴치와와">
+                <div class="date">웃긴치와와</div>
+            </div>
+            <div class="gallery-item" data-date="졸린치와와">
+                <div class="date">졸린치와와</div>
+            </div>
+            <div class="gallery-item" data-date="멋진치와와">
+                <div class="date">멋진치와와</div>
+            </div>
+            <div class="gallery-item" data-date="전기톱치와와">
+                <div class="date">전기톱치와와</div>
+            </div>
+            <div class="gallery-item" data-date="기타등등">
+                <div class="date">기타등등</div>
+            </div>
+        </section>
+    </main>
+</body>
+</html>
