@@ -46,7 +46,6 @@
             gap: 10px;
         }
         .gallery-item {
-            display: none;
             box-sizing: border-box;
             background-color: white;
             border: 1px solid #ddd;
@@ -64,17 +63,14 @@
             background-color: #333;
             color: white;
             text-align: center;
+            cursor: pointer;
         }
     </style>
     <script>
-        function filterByDate(date) {
-            const items = document.querySelectorAll('.gallery-item');
+        function toggleFolder(category) {
+            const items = document.querySelectorAll(`.gallery-item[data-date="${category}"]`);
             items.forEach(item => {
-                if (item.dataset.date === date) {
-                    item.style.display = 'block';
-                } else {
-                    item.style.display = 'none';
-                }
+                item.style.display = item.style.display === "block" ? "none" : "block";
             });
         }
 
@@ -92,11 +88,10 @@
                     newGalleryItem.classList.add('gallery-item');
                     newGalleryItem.dataset.date = selectedDate;
                     newGalleryItem.innerHTML = `
+                        <div class="date" onclick="toggleFolder('${selectedDate}')">${selectedDate}</div>
                         <img src="${e.target.result}" alt="Uploaded Photo">
-                        <div class="date">${selectedDate}</div>
                     `;
                     gallery.appendChild(newGalleryItem);
-                    alert('Photo uploaded successfully!');
                 };
 
                 reader.readAsDataURL(file);
@@ -114,7 +109,6 @@
     <main>
         <div class="controls">
             <select id="dateSelect">
-                <option value="">Select a category</option>
                 <option value="귀여운치와와">귀여운치와와</option>
                 <option value="웃긴치와와">웃긴치와와</option>
                 <option value="졸린치와와">졸린치와와</option>
@@ -127,22 +121,22 @@
         </div>
         <section class="gallery">
             <div class="gallery-item" data-date="귀여운치와와">
-                <div class="date">귀여운치와와</div>
+                <div class="date" onclick="toggleFolder('귀여운치와와')">귀여운치와와</div>
             </div>
             <div class="gallery-item" data-date="웃긴치와와">
-                <div class="date">웃긴치와와</div>
+                <div class="date" onclick="toggleFolder('웃긴치와와')">웃긴치와와</div>
             </div>
             <div class="gallery-item" data-date="졸린치와와">
-                <div class="date">졸린치와와</div>
+                <div class="date" onclick="toggleFolder('졸린치와와')">졸린치와와</div>
             </div>
             <div class="gallery-item" data-date="멋진치와와">
-                <div class="date">멋진치와와</div>
+                <div class="date" onclick="toggleFolder('멋진치와와')">멋진치와와</div>
             </div>
             <div class="gallery-item" data-date="전기톱치와와">
-                <div class="date">전기톱치와와</div>
+                <div class="date" onclick="toggleFolder('전기톱치와와')">전기톱치와와</div>
             </div>
             <div class="gallery-item" data-date="기타등등">
-                <div class="date">기타등등</div>
+                <div class="date" onclick="toggleFolder('기타등등')">기타등등</div>
             </div>
         </section>
     </main>
